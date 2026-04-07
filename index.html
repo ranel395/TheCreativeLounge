@@ -32,6 +32,7 @@
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#cart">Cart <span class="badge bg-light text-dark ms-1" id="cart-count">0</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -106,52 +107,80 @@
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <!-- Product item 1-->
                         <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
+                            <div class="portfolio-link">
                                 <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                    <div class="portfolio-hover-content"><i class="fas fa-cart-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/portfolio/1.jpg" alt="..." />
-                            </a>
+                                <img class="img-fluid" src="assets/img/portfolio/1.jpg" alt="Craft Kits" />
+                            </div>
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Craft Kits</div>
                                 <div class="portfolio-caption-subheading text-muted">Craft kits are all in one DIY packages that include the materials, tools, and instructions
                                      needed to complete creative projects at home. These kits may include activities such as candle making, painting, jewelry making, or seasonal crafts.
                                       Each kit is designed to be beginner friendly and provides a guided experience that allows customers to learn new skills while enjoying
                                        a fun and relaxing activity.</div>
+                                <p class="mt-3 mb-2 fw-bold">$29.99</p>
+                                <button class="btn btn-primary text-uppercase add-to-cart-btn" type="button" data-name="Craft Kits" data-price="29.99">Add to Cart</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <!-- Product item 2-->
                         <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
+                            <div class="portfolio-link">
                                 <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                    <div class="portfolio-hover-content"><i class="fas fa-cart-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/portfolio/2.jpg" alt="..." />
-                            </a>
+                                <img class="img-fluid" src="assets/img/portfolio/2.jpg" alt="Cooking Kits" />
+                            </div>
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Cooking Kits</div>
                                 <div class="portfolio-caption-subheading text-muted">Cooking kits provide customers with pre-measured ingredients, recipes, and step by step instructions
                                      to prepare meals at home. These kits may include themed experiences such as family dinner kits, date night meals, or international cuisine. Cooking kits
                                       make it easier for customers to enjoy a cooking experience without needing to shop for ingredients or plan recipes.</div>
+                                <p class="mt-3 mb-2 fw-bold">$39.99</p>
+                                <button class="btn btn-primary text-uppercase add-to-cart-btn" type="button" data-name="Cooking Kits" data-price="39.99">Add to Cart</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <!-- Product item 3-->
                         <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
+                            <div class="portfolio-link">
                                 <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                    <div class="portfolio-hover-content"><i class="fas fa-cart-plus fa-3x"></i></div>
                                 </div>
-                                <img class="img-fluid" src="assets/img/portfolio/3.jpg" alt="..." />
-                            </a>
+                                <img class="img-fluid" src="assets/img/portfolio/3.jpg" alt="Subscription Kits" />
+                            </div>
                             <div class="portfolio-caption">
                                 <div class="portfolio-caption-heading">Subscription Kits</div>
                                 <div class="portfolio-caption-subheading text-muted">Subscription kits are recurring monthly packages that deliver new craft or cooking experiences directly
                                      to customers. Each month, subscribers receive a curated kit with materials or ingredients, instructions, and access to optional virtual classes or tutorials.
                                       This model encourages ongoing engagement, convenience, and a continuous creative or culinary experience for customers.</div>
+                                <p class="mt-3 mb-2 fw-bold">$49.99</p>
+                                <button class="btn btn-primary text-uppercase add-to-cart-btn" type="button" data-name="Subscription Kits" data-price="49.99">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5" id="cart">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                                    <div>
+                                        <h3 class="text-uppercase mb-1">Shopping Cart</h3>
+                                        <p class="text-muted mb-0">Items you add will appear here.</p>
+                                    </div>
+                                    <button class="btn btn-outline-secondary text-uppercase" id="clear-cart-btn" type="button">Clear Cart</button>
+                                </div>
+                                <div id="cart-items" class="mb-3">
+                                    <p class="text-muted mb-0">Your cart is empty.</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                    <strong>Total</strong>
+                                    <strong id="cart-total">$0.00</strong>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -358,112 +387,6 @@
                 </div>
             </div>
         </footer>
-        <!-- Portfolio Modals-->
-        <!-- Portfolio item 1 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Threads
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Illustration
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 2 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Explore
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Graphic Design
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 3 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Finish
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Identity
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
