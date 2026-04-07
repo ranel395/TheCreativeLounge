@@ -2,20 +2,18 @@
 * Start Bootstrap - Agency v7.0.12
 */
 
-// -----------------------------
-// EXISTING NAVBAR SCRIPT
-// -----------------------------
-
-window.addEventListener('DOMContentLoaded', event => {
-
-    var navbarShrink = function () {
+window.addEventListener('DOMContentLoaded', () => {
+    // -----------------------------
+    // EXISTING NAVBAR SCRIPT
+    // -----------------------------
+    const navbarShrink = function () {
         const navbarCollapsible = document.body.querySelector('#mainNav');
         if (!navbarCollapsible) return;
 
         if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
+            navbarCollapsible.classList.remove('navbar-shrink');
         } else {
-            navbarCollapsible.classList.add('navbar-shrink')
+            navbarCollapsible.classList.add('navbar-shrink');
         }
     };
 
@@ -23,7 +21,6 @@ window.addEventListener('DOMContentLoaded', event => {
     document.addEventListener('scroll', navbarShrink);
 
     const mainNav = document.body.querySelector('#mainNav');
-
     if (mainNav) {
         new bootstrap.ScrollSpy(document.body, {
             target: '#mainNav',
@@ -32,93 +29,164 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
     const navbarToggler = document.body.querySelector('.navbar-toggler');
-
     const responsiveNavItems = [].slice.call(
         document.querySelectorAll('#navbarResponsive .nav-link')
     );
 
-    responsiveNavItems.map(function (responsiveNavItem) {
+    responsiveNavItems.forEach(function (responsiveNavItem) {
         responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
+            if (
+                navbarToggler &&
+                window.getComputedStyle(navbarToggler).display !== 'none'
+            ) {
                 navbarToggler.click();
             }
         });
     });
 
-});
+    // -----------------------------
+    // CART SYSTEM
+    // -----------------------------
+    const CART_STORAGE_KEY = 'creative-lounge-cart';
+    let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
 
+    const cartCountEl = document.getElementById('cart-count');
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
 
-// -----------------------------
-// CART SYSTEM
-// -----------------------------
+    function saveCart() {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    }
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    function getCartItemCount() {
+        return cart.reduce((total, item) => total + item.quantity, 0);
+    }
 
-const cartCount = document.getElementById("cart-count");
-const cartItems = document.getElementById("cart-items");
-const cartTotal = document.getElementById("cart-total");
+    function getCartTotal() {
+        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    }
 
+    function renderCart() {
+        if (!cartItemsEl || !cartTotalEl || !cartCountEl) return;
 
-// Update cart display
-function updateCart() {
+        cartItemsEl.innerHTML = '';
 
-    cartItems.innerHTML = "";
+        if (cart.length === 0) {
+            const emptyItem = document.createElement('li');
+            emptyItem.className = 'list-group-item text-muted';
+            emptyItem.textContent = 'Your cart is empty.';
+            cartItemsEl.appendChild(emptyItem);
+        } else {
+            cart.forEach((item) => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
 
-    let total = 0;
+                li.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <div class="fw-bold">${item.name}</div>
+                            <small class="text-muted">$${item.price.toFixed(2)} each</small>
+                        </div>
 
-    cart.forEach((item, index) => {
+                        <div class="d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-outline-secondary decrease-btn" data-name="${item.name}" type="button">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="btn btn-sm btn-outline-secondary increase-btn" data-name="${item.name}" type="button">+</button>
+                            <button class="btn btn-sm btn-outline-danger remove-btn" data-name="${item.name}" type="button">Remove</button>
+                        </div>
+                    </div>
+                `;
 
-        total += item.price * item.quantity;
+                cartItemsEl.appendChild(li);
+            });
+        }
 
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${item.name} - $${item.price} x ${item.quantity}
-            <button onclick="removeItem(${index})">Remove</button>
-        `;
+        cartCountEl.textContent = getCartItemCount();
+        cartTotalEl.textContent = getCartTotal().toFixed(2);
+        saveCart();
+    }
 
-        cartItems.appendChild(li);
+    function addToCart(name, price) {
+        const existingItem = cart.find(item => item.name === name);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                name,
+                price,
+                quantity: 1
+            });
+        }
+
+        renderCart();
+    }
+
+    function increaseQuantity(name) {
+        const item = cart.find(item => item.name === name);
+        if (!item) return;
+
+        item.quantity += 1;
+        renderCart();
+    }
+
+    function decreaseQuantity(name) {
+        const item = cart.find(item => item.name === name);
+        if (!item) return;
+
+        item.quantity -= 1;
+
+        if (item.quantity <= 0) {
+            cart = cart.filter(cartItem => cartItem.name !== name);
+        }
+
+        renderCart();
+    }
+
+    function removeItem(name) {
+        cart = cart.filter(item => item.name !== name);
+        renderCart();
+    }
+
+    function clearCart() {
+        cart = [];
+        renderCart();
+    }
+
+    addToCartButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const name = button.dataset.name;
+            const price = parseFloat(button.dataset.price);
+
+            if (!name || Number.isNaN(price)) return;
+
+            addToCart(name, price);
+        });
     });
 
-    cartTotal.innerText = total.toFixed(2);
+    if (cartItemsEl) {
+        cartItemsEl.addEventListener('click', (event) => {
+            const target = event.target;
 
-    cartCount.innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (target.classList.contains('increase-btn')) {
+                increaseQuantity(target.dataset.name);
+            }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
+            if (target.classList.contains('decrease-btn')) {
+                decreaseQuantity(target.dataset.name);
+            }
 
-
-// Add item to cart
-function addToCart(name, price) {
-
-    const existing = cart.find(item => item.name === name);
-
-    if (existing) {
-        existing.quantity++;
-    } else {
-        cart.push({
-            name: name,
-            price: price,
-            quantity: 1
+            if (target.classList.contains('remove-btn')) {
+                removeItem(target.dataset.name);
+            }
         });
     }
 
-    updateCart();
-}
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', clearCart);
+    }
 
-
-// Remove item
-function removeItem(index) {
-    cart.splice(index, 1);
-    updateCart();
-}
-
-
-// Clear cart
-function clearCart() {
-    cart = [];
-    updateCart();
-}
-
-
-// Initialize cart on page load
-updateCart();
+    renderCart();
+});
